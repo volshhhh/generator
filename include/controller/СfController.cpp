@@ -1,0 +1,64 @@
+#include "CfController.h"
+#include "entities/Problem.h"
+#include "entities/ProblemStatistics.h"
+#include <iostream>
+
+Cf_Controller::Cf_Controller() {
+  curl = curl_easy_init();
+  auto &factory = JsonConverterFactory::getInstance();
+  factory.initConverters();
+}
+Cf_Controller::~Cf_Controller() { curl_easy_cleanup(curl); }
+
+std::vector<Problem>
+Cf_Controller::getProblemsByTags(std::vector<std::string> &tags) {
+  std::string raw_response;
+  std::string address = api_address + "problemset.problems?tags=";
+
+  for (auto &tag : tags) {
+    address += tag + ";";
+  }
+  std::cout << address << std::endl;
+
+  curl_easy_setopt(curl, CURLOPT_URL, address.c_str());
+  curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &raw_response);
+
+  json parsed_response;
+
+  // Выполнить запрос
+  CURLcode res = curl_easy_perform(curl);
+  if (res != CURLE_OK) {
+    std::cerr << "CURL Error: " << curl_easy_strerror(res) << std::endl;
+    return {}; // возвращаем пустой вектор
+  }
+
+  // Проверить, что получили данные
+  if (raw_response.empty()) {
+    std::cerr << "Empty response from server" << std::endl;
+    return {};
+  }
+
+  try {
+    parsed_response = json::parse(raw_response);
+  } catch (json::parse_error &e) {
+    std::cerr << "JSON Error: " << e.what() << std::endl;
+  }
+
+  auto &factory = JsonConverterFactory::getInstance();
+  std::vector<Problem> problems;
+  for (const auto &problemJson : parsed_response["result"]["problems"]) {
+    Problem problem;
+    factory.convert(problemJson, problem);
+    problems.push_back(problem);
+  }
+
+  std::vector<ProblemStatistics> stats;
+  for (const auto &statJson : parsed_response["result"]["problemStatistics"]) {
+    ProblemStatistics stat;
+    factory.convert(statJson, stat);
+    stats.push_back(stat);
+  }
+
+  return problems;
+}
