@@ -1,1 +1,0 @@
-/usr/bin/clang++-17 -g CMakeFiles/CurlExample.dir/src/main.cpp.o CMakeFiles/CurlExample.dir/utils/ParseProblemJSON.cpp.o -o bin/codeforces_client  /usr/lib/x86_64-linux-gnu/libcurl.so 
