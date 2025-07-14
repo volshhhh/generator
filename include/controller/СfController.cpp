@@ -1,7 +1,10 @@
 #include "CfController.h"
 #include "entities/Problem.h"
 #include "entities/ProblemStatistics.h"
+#include <cstddef>
 #include <iostream>
+#include <string>
+#include <random>
 
 Cf_Controller::Cf_Controller() {
   curl = curl_easy_init();
@@ -61,4 +64,35 @@ Cf_Controller::getProblemsByTags(std::vector<std::string> &tags) {
   }
 
   return problems;
+}
+
+std::string Cf_Controller::getProblemLink(Problem& p) {
+  std::string address = "https://codeforces.com/problemset/problem/";
+  std::string contestId = std::to_string((p.contestId).value());
+  std::string index = p.index;
+
+  if ((p.contestId).has_value()) {
+    return address + contestId + "/" + index;
+  }
+  return address + index;
+}
+
+std::vector<std::string> Cf_Controller::getRandomProblems(std::vector<Problem>& pr, size_t cnt) {
+  size_t sz = pr.size();
+  std::vector<size_t> shuffle(sz);
+  for (size_t i = 0; i < sz; i++) {
+    shuffle[i] = i;
+  }
+
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::shuffle(shuffle.begin(), shuffle.end(), gen);
+
+
+  std::vector<std::string> prLinks(cnt);
+  for (size_t i = 0; i < cnt; i++) {
+    prLinks[i] = getProblemLink(pr[shuffle[i]]);
+  }
+
+  return prLinks;
 }

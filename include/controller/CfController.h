@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "entities/Problem.h"
 #include "utils/JsonConverterFactory.h"
 
 using json = nlohmann::json;
@@ -41,5 +42,5 @@ public:
   std::string getProblemLink(Problem &p);
 
   // возвращает ссылки задачи, выбранные рандомно
-  std::vector<std::string> getRandomProblems(int cnt);
+  std::vector<std::string> getRandomProblems(std::vector<Problem> &pr, size_t cnt);
 };
