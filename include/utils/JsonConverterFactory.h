@@ -11,6 +11,9 @@
 #include "entities/Problem.h"
 #include "entities/ProblemStatistics.h"
 
+
+// ? Что из этого закинуть в private?
+
 class JsonConverterFactory {
 public:
   JsonConverterFactory() = default;
@@ -27,6 +30,13 @@ public:
   JsonConverter *getConverter(const Object &obj);
 
   bool convert(const json &Json, Object &obj);
+
+
+  // TODO: надо бы добавить такой метод
+  bool Convert(const json& Json) {
+    // как по JSON определить объект
+    return false; 
+  }
 
 private:
   std::unordered_map<std::type_index, std::unique_ptr<JsonConverter>>
