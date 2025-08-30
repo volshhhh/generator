@@ -1,8 +1,25 @@
+from typing import List
 from bs4 import BeautifulSoup
-def parse_problem_statement(html_file):
-    with open(html_file, 'r', encoding='utf-8') as file:
-        html_content = file.read()
-    
+from dataclasses import dataclass
+
+@dataclass
+class Sample:
+    input_number: int
+    input_text: str
+    output_number: int
+    output_text: str
+
+@dataclass
+class ProblemStatement:
+    title: str
+    time_limit: str
+    memory_limit: str
+    description: str
+    input_spec: str
+    output_spec: str
+    samples: List[Sample]
+
+def parse_problem_statement(html_content):
     soup = BeautifulSoup(html_content, 'html.parser')
     
     problem_statement = soup.find('div', class_='problem-statement')
@@ -36,30 +53,10 @@ def parse_problem_statement(html_file):
     if note_div:
         note = note_div.get_text(strip=True)
     
-    result = f"""
-Title: {title}
-{time_limit}
-{memory_limit}
-
-Description:
-{description}
-
-Input:
-{input_spec}
-
-Output:
-{output_spec}
-"""
-    
-    for sample in samples:
-        result += f"\n{sample[0]}:\n{sample[1]}\n{sample[2]}:\n{sample[3]}\n"
-    
-    if note:
-        result += f"\nNote:\n{note}"
-    
+    result = ProblemStatement(title=title, 
+                              time_limit=time_limit, 
+                              memory_limit=memory_limit, 
+                              description=description, 
+                              input_spec=input_spec, 
+                              output_spec=output_spec, samples=samples)
     return result
-
-if __name__ == "__main__":
-    html_file = "codeforces_problem.html"
-    problem_text = parse_problem_statement(html_file)
-    print(problem_text)

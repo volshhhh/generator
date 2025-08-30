@@ -1,5 +1,3 @@
-# Функции для работы с исходными файлами
-
 function(collect_sources var_name)
     set(source_patterns
         "src/*.cpp"
@@ -8,6 +6,8 @@ function(collect_sources var_name)
         "src/**/*.c"
         "include/controller/*.cpp"
         "include/controller/*.c"
+        "${CMAKE_CURRENT_BINARY_DIR}/*.pb.cc"
+        "${CMAKE_CURRENT_BINARY_DIR}/*.grpc.pb.cc"
     )
     
     set(header_patterns
@@ -19,6 +19,8 @@ function(collect_sources var_name)
         "src/*.hpp"
         "include/controller/*.h"
         "include/controller/*.hpp"
+        "${CMAKE_CURRENT_BINARY_DIR}/*.pb.h"
+        "${CMAKE_CURRENT_BINARY_DIR}/*.grpc.pb.h"
     )
     
     set(all_sources)
@@ -33,16 +35,13 @@ function(collect_sources var_name)
         list(APPEND all_headers ${pattern_files})
     endforeach()
     
-    # Удаляем дубликаты
     list(REMOVE_DUPLICATES all_sources)
     if(all_headers)
         list(REMOVE_DUPLICATES all_headers)
     endif()
     
-    # Объединяем источники и заголовки
     set(${var_name} ${all_sources} ${all_headers} PARENT_SCOPE)
     
-    # Выводим информацию
     list(LENGTH all_sources sources_count)
     list(LENGTH all_headers headers_count)
     message(STATUS "Found ${sources_count} source files and ${headers_count} header files")
@@ -52,5 +51,6 @@ function(setup_include_directories target_name)
     target_include_directories(${target_name} PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_BINARY_DIR}
     )
 endfunction()

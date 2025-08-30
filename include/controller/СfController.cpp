@@ -29,14 +29,12 @@ Cf_Controller::getProblemsByTags(std::vector<std::string> &tags) {
 
   json parsed_response;
 
-  // Выполнить запрос
   CURLcode res = curl_easy_perform(curl);
   if (res != CURLE_OK) {
     std::cerr << "CURL Error: " << curl_easy_strerror(res) << std::endl;
-    return {}; // возвращаем пустой вектор
+    return {};
   }
 
-  // Проверить, что получили данные
   if (raw_response.empty()) {
     std::cerr << "Empty response from server" << std::endl;
     return {};

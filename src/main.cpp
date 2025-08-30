@@ -1,45 +1,99 @@
-/*
-write http responser
-*/
+#include <iostream>
+
+#include "proto/connection.grpc.pb.h"
+#include "proto/connection.pb.h"
+
+#include <grpc/grpc.h>
+#include <grpcpp/create_channel.h>
 
 #include <fstream>
 #include <iostream>
-#include <string>
-#include <curl/curl.h>
 
-// Callback-функция для записи полученных данных
-static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
-    return size * nmemb;
+std::string getProjectPath() {
+#ifdef PROJECT_SOURCE_DIR
+  return PROJECT_SOURCE_DIR;
+#else
+  return std::filesystem::current_path().parent_path().string();
+#endif
 }
 
-std::string getHttpPage(const std::string& url) {
-    CURL* curl;
-    CURLcode res;
-    std::string readBuffer;
+void split_time(std::string &limit) {
+  const std::string pattern = "test";
+  auto it = limit.find(pattern);
+  size_t start = it + pattern.size();
 
-    curl = curl_easy_init();
-    if(curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-        curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0");
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L); // Следовать редиректам
-        
-        res = curl_easy_perform(curl);
-        if(res != CURLE_OK) {
-            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
-        }
-        
-        curl_easy_cleanup(curl);
+  limit += ' ';
+  limit += ' ';
+  for (size_t i = limit.size() - 1; i >= start; i--) {
+    limit[i] = limit[i - 2];
+  }
+
+  limit[start] = ':';
+  limit[start + 1] = ' ';
+}
+
+std::string fix(std::string str) {
+  size_t f = 0;
+
+  int cnt_dollar = 0;
+  for (size_t i = 0; i < str.size(); i++) {
+    if (str[i] != '$') {
+      str[f] = str[i];
+      f++;
+    } else {
+      cnt_dollar++;
+      if (cnt_dollar == 1) {
+        str[f] = '$';
+        f++;
+      } else if (cnt_dollar == 6) {
+        str[f] = '$';
+        f++;
+        cnt_dollar = 0;
+      }
     }
-    return readBuffer;
+  }
+  str.resize(f);
+  return str;
 }
 
-int main() {
-    std::ofstream out ("/home/volsh/cfprog/Tasks_Generator/src/output.txt");
-    std::string url = "https://codeforces.com/problemset/problem/2121/H";
-    std::string pageContent = getHttpPage(url);
-    out << "Page content:\n" << pageContent << std::endl;
+int main(int argc, char *argv[]) {
+  if (argc == 1) {
+    std::cout << "No links\n";
     return 0;
+  }
+  std::cout << "I am cpp client\n";
+
+  connect::Request request;
+  connect::Response response;
+
+  request.set_uri(argv[1]);
+
+  auto channel = grpc::CreateChannel("localhost:50051",
+                                     grpc::InsecureChannelCredentials());
+  std::unique_ptr<connect::Parsing::Stub> stub =
+      connect::Parsing::NewStub(channel);
+  grpc::ClientContext context;
+  grpc::Status status = stub->ParseUri(&context, request, &response);
+
+  auto title = fix(response.title());
+  auto time_limit = fix(response.time_limit());
+  auto memory_limit = fix(response.memory_limit());
+  auto description = fix(response.description());
+  auto input_spec = fix(response.input_spec());
+  auto output_spec = fix(response.output_spec());
+
+  std::cout << getProjectPath() << std::endl;
+  std::ofstream out(getProjectPath() + "/template.tex", std::ios::app);
+
+  split_time(time_limit);
+  split_time(memory_limit);
+  out << "\\section{" << "\\href{" << argv[1] << "}{" << title << "}}\n"
+      << '\n';
+  out << time_limit << '\n' << '\n';
+  out << memory_limit << '\n' << '\n';
+  out << description << '\n' << '\n';
+  out << input_spec << '\n' << '\n';
+  out << output_spec << '\n' << '\n';
+
+  out << "\\end{document}\n";
 }

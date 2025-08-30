@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package connect;
+
+/// Запрос для парсинга URI
+message Request {
+    string uri = 1;  /// URI для парсинга
+}
+
+/// Пример входных/выходных данных
+message Sample {
+    string text = 1;  /// Текст примера
+}
+
+/// Ответ с информацией о задаче
+message Response {
+    string title = 1;           /// Название задачи
+    string time_limit = 2;      /// Ограничение по времени
+    string memory_limit = 3;    /// Ограничение по памяти
+    string description = 4;     /// Описание задачи
+    string input_spec = 5;      /// Спецификация входных данных
+    string output_spec = 6;     /// Спецификация выходных данных
+    repeated Sample samples = 7; /// Массив примеров
+}
+
+/// Сервис для парсинга задач
+service Parsing {
+    /// Парсит URI и возвращает информацию о задаче
+    rpc ParseUri(Request) returns (Response) {}
+}
