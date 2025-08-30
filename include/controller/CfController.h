@@ -31,16 +31,17 @@ private:
     return data_size;
   };
 
-public:
-  Cf_Controller();
-  ~Cf_Controller();
-
   // получаем задачи по тегам
   std::vector<Problem> getProblemsByTags(std::vector<std::string> &tags);
 
   // получает ссылку на задачу
   std::string getProblemLink(Problem &p);
 
+public:
+  Cf_Controller();
+  ~Cf_Controller();
+
   // возвращает ссылки задачи, выбранные рандомно
-  std::vector<std::string> getRandomProblems(std::vector<Problem> &pr, size_t cnt);
+  std::vector<std::string> generateRandomProblems(std::vector<std::string> &tags,
+    size_t cnt);
 };

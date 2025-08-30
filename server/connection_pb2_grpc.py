@@ -16,7 +16,7 @@ class ParsingStub(object):
             channel: A grpc.Channel.
         """
         self.ParseUri = channel.unary_unary(
-                '/connect.Parsing/ParseUri',
+                '/myconnect.Parsing/ParseUri',
                 request_serializer=connection__pb2.Request.SerializeToString,
                 response_deserializer=connection__pb2.Response.FromString,
                 )
@@ -43,7 +43,7 @@ def add_ParsingServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'connect.Parsing', rpc_method_handlers)
+            'myconnect.Parsing', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -63,7 +63,7 @@ class Parsing(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/connect.Parsing/ParseUri',
+        return grpc.experimental.unary_unary(request, target, '/myconnect.Parsing/ParseUri',
             connection__pb2.Request.SerializeToString,
             connection__pb2.Response.FromString,
             options, channel_credentials,

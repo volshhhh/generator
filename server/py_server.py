@@ -10,17 +10,16 @@ from include.parser import parse_problem_statement
 class ParsingServicer(connection_pb2_grpc.ParsingServicer):
     def ParseUri(self, request, context):
 
-        with open('/home/kercoza/taskgen/parser/server/include/codeforces_problem.html', 'r', encoding='utf-8') as file:
-            problem_html = file.read()
-        # Problem = parse_problem_statement(get_problem_html(request.uri))
-
-        # print(Problem.description)
+        # with open('include/codeforces_problem.txt', 'r', encoding='utf-8') as file:
+        #     problem_html = file.read()
+        Problem = parse_problem_statement(get_problem_html(request.uri))
+        print(Problem.description)
         # response = connection_pb2.Response(
         #         name=Problem.title,
         #         text=Problem.description
         #     )
         
-        Problem = parse_problem_statement(problem_html)
+        # Problem = parse_problem_statement(problem_html)
         
         response = connection_pb2.Response(
             title=Problem.title,

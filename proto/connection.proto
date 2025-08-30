@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package connect;
+package myconnect;
 
 /// Запрос для парсинга URI
 message Request {

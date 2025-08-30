@@ -75,7 +75,8 @@ std::string Cf_Controller::getProblemLink(Problem& p) {
   return address + index;
 }
 
-std::vector<std::string> Cf_Controller::getRandomProblems(std::vector<Problem>& pr, size_t cnt) {
+std::vector<std::string> Cf_Controller::generateRandomProblems(std::vector<std::string>& tags, size_t cnt) {
+  auto pr = getProblemsByTags(tags);
   size_t sz = pr.size();
   std::vector<size_t> shuffle(sz);
   for (size_t i = 0; i < sz; i++) {

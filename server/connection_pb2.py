@@ -14,19 +14,19 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x63onnection.proto\x12\x07\x63onnect\"\x16\n\x07Request\x12\x0b\n\x03uri\x18\x01 \x01(\t\"\x16\n\x06Sample\x12\x0c\n\x04text\x18\x01 \x01(\t\"\xa3\x01\n\x08Response\x12\r\n\x05title\x18\x01 \x01(\t\x12\x12\n\ntime_limit\x18\x02 \x01(\t\x12\x14\n\x0cmemory_limit\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x12\n\ninput_spec\x18\x05 \x01(\t\x12\x13\n\x0boutput_spec\x18\x06 \x01(\t\x12 \n\x07samples\x18\x07 \x03(\x0b\x32\x0f.connect.Sample2<\n\x07Parsing\x12\x31\n\x08ParseUri\x12\x10.connect.Request\x1a\x11.connect.Response\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x63onnection.proto\x12\tmyconnect\"\x16\n\x07Request\x12\x0b\n\x03uri\x18\x01 \x01(\t\"\x16\n\x06Sample\x12\x0c\n\x04text\x18\x01 \x01(\t\"\xa5\x01\n\x08Response\x12\r\n\x05title\x18\x01 \x01(\t\x12\x12\n\ntime_limit\x18\x02 \x01(\t\x12\x14\n\x0cmemory_limit\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x12\n\ninput_spec\x18\x05 \x01(\t\x12\x13\n\x0boutput_spec\x18\x06 \x01(\t\x12\"\n\x07samples\x18\x07 \x03(\x0b\x32\x11.myconnect.Sample2@\n\x07Parsing\x12\x35\n\x08ParseUri\x12\x12.myconnect.Request\x1a\x13.myconnect.Response\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'connection_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_REQUEST']._serialized_start=29
-  _globals['_REQUEST']._serialized_end=51
-  _globals['_SAMPLE']._serialized_start=53
-  _globals['_SAMPLE']._serialized_end=75
-  _globals['_RESPONSE']._serialized_start=78
-  _globals['_RESPONSE']._serialized_end=241
-  _globals['_PARSING']._serialized_start=243
-  _globals['_PARSING']._serialized_end=303
+  _globals['_REQUEST']._serialized_start=31
+  _globals['_REQUEST']._serialized_end=53
+  _globals['_SAMPLE']._serialized_start=55
+  _globals['_SAMPLE']._serialized_end=77
+  _globals['_RESPONSE']._serialized_start=80
+  _globals['_RESPONSE']._serialized_end=245
+  _globals['_PARSING']._serialized_start=247
+  _globals['_PARSING']._serialized_end=311
 # @@protoc_insertion_point(module_scope)

@@ -1,13 +1,11 @@
 from urllib.request import urlopen, Request
 
-def get_problem_html(contest_id=1918, problem_id='A'):
+def get_problem_html(url):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                       'AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/91.0.4472.124 Safari/537.36'
     }
-    url = f"https://codeforces.com/contest/{contest_id}/problem/{problem_id}"
-    
     try:
         with urlopen(Request(url, headers=headers), timeout=10) as response:
             return response.read().decode('utf-8')
@@ -25,7 +23,7 @@ def save_to_file(content, filename):
         return False
 
 def main():
-    html_content = get_problem_html()
+    html_content = get_problem_html("https://codeforces.com/problemset/problem/1918/A")
     
     if html_content:
         filename = 'codeforces_problem.html'
