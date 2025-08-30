@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 
-set(CMAKE_TOOLCHAIN_FILE "/home/kercoza/vcpkg/scripts/buildsystems/vcpkg.cmake")
+# If you installed gRPC and Protocol Buffers through vcpkg,
+# you need to specify the full path to the vcpkg toolchain file.
+set(CMAKE_TOOLCHAIN_FILE "your/path/vcpkg.cmake")
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
 
 project(app 
