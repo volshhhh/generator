@@ -83,9 +83,3 @@ Server started on port 50051...
 $ ./build/bin/codef dp math
 Response: OK
 ```
-
-## Other / Limitations
-
-**Important Note on Current Limitation:**  
-The system currently does not bypass or solve CAPTCHA challenges presented by the Codeforces website. As a result, when Codeforces requires a CAPTCHA verification for API requests or HTML page access, the system's ability to fetch multiple problems is hindered.
-```

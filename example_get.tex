@@ -1,0 +1,90 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\date{}
+\title{Tasks}
+\author{Codeforces}
+
+\begin{document}
+\maketitle
+
+\section{\href{https://codeforces.com/problemset/problem/2021/E1}{E1. Digital Village (Easy Version)}}
+
+\begin{itemize}
+\item \textbf{time limit per test:}  2 seconds
+\item \textbf{memory limit per test:}  256 megabytes
+\end{itemize}
+This is the easy version of the problem. In the three versions, the constraints on $n$ and $m$ are different. You can make hacks only if all the versions of the problem are solved. Pak Chanek is setting up internet connections for the village of Khuntien. The village can be represented as a connected simple graph with $n$ houses and $m$ internet cables connecting house $u_i$ and house $v_i$, each with a latency of $w_i$. There are $p$ houses that require internet. Pak Chanek can install servers in at most $k$ of the houses. The houses that need internet will then be connected to one of the servers. However, since each cable has its latency, the latency experienced by house $s_i$ requiring internet will be the maximum latency of the cables between that house and the server it is connected to. For each $k = 1,2,\ldots,n$, help Pak Chanek determine the minimum total latency that can be achieved for all the houses requiring internet.
+
+\subsection*{Input}
+ Each test contains multiple test cases. The first line contains the number of test cases $t$ ($1 \le t \le 100$). The description of the test cases follows. The first line of each test case contains three integers $n$, $m$, $p$ ($2 \le n \le 400$; $n-1 \le m \le 400$; $1 \le p \le n$) — the number of houses, the number of cables and the number of houses that need internet. The second line of each test case contains $p$ integers $s_1, s_2, \ldots, s_p$ ($1 \le s_i \le n$) — the houses that need internet. It is guaranteed that all elements of $s$ are distinct. The $i$-th of the next $m$ lines of each test case contains three integers $u_i$, $v_i$, and $w_i$ ($1 \le u_i < v_i \le n$; $1 \le w_i \le 10^9$) — the internet cable connecting house $u_i$ and house $v_i$ with latency of $w_i$. It is guaranteed that the given edges form a connected simple graph. It is guaranteed that the sum of $n^3$ and the sum of $m^3$ do not exceed $10^8$.
+
+\subsection*{Output}
+ For each test case, output $n$ integers: the minimum total latency that can be achieved for all the houses requiring internet for each $k = 1,2,\ldots,n$.
+
+\section{\href{https://codeforces.com/problemset/problem/1620/C}{C. BA-String}}
+
+\begin{itemize}
+\item \textbf{time limit per test:}  2 seconds
+\item \textbf{memory limit per test:}  256 megabytes
+\end{itemize}
+You are given an integer $k$ and a string $s$ that consists only of characters 'a' (a lowercase Latin letter) and '*' (an asterisk). Each asterisk should be replaced with several (from $0$ to $k$ inclusive) lowercase Latin letters 'b'. Different asterisk can be replaced with different counts of letter 'b'. The result of the replacement is called a BA-string . Two strings $a$ and $b$ are different if they either have different lengths or there exists such a position $i$ that $a_i \neq b_i$. A string $a$ is lexicographically smaller than a string $b$ if and only if one of the following holds: $a$ is a prefix of $b$, but $a \ne b$; in the first position where $a$ and $b$ differ, the string $a$ has a letter that appears earlier in the alphabet than the corresponding letter in $b$. Now consider all different BA-strings and find the $x$-th lexicographically smallest of them.
+
+\subsection*{Input}
+ The first line contains a single integer $t$ ($1 \le t \le 2000$) — the number of testcases. The first line of each testcase contains three integers $n$, $k$ and $x$ ($1 \le n \le 2000$; $0 \le k \le 2000$; $1 \le x \le 10^{18}$). $n$ is the length of string $s$. The second line of each testcase is a string $s$. It consists of $n$ characters, each of them is either 'a' (a lowercase Latin letter) or '*' (an asterisk). The sum of $n$ over all testcases doesn't exceed $2000$. For each testcase $x$ doesn't exceed the total number of different BA-strings. String $s$ contains at least one character 'a'.
+
+\subsection*{Output}
+ For each testcase, print a single string, consisting only of characters 'b' and 'a' (lowercase Latin letters) — the $x$-th lexicographically smallest BA-string.
+
+\section{\href{https://codeforces.com/problemset/problem/1841/C}{C. Ranom Numbers}}
+
+\begin{itemize}
+\item \textbf{time limit per test:}  2 seconds
+\item \textbf{memory limit per test:}  256 megabytes
+\end{itemize}
+No, not "random" numbers. Ranom digits are denoted by uppercase Latin letters from A to E . Moreover, the value of the letter A is $1$, B is $10$, C is $100$, D is $1000$, E is $10000$. A Ranom number is a sequence of Ranom digits. The value of the Ranom number is calculated as follows: the values of all digits are summed up, but some digits are taken with negative signs: a digit is taken with negative sign if there is a digit with a strictly greater value to the right of it (not necessarily immediately after it); otherwise, that digit is taken with a positive sign. For example, the value of the Ranom number DAAABDCA is $1000 - 1 - 1 - 1 - 10 + 1000 + 100 + 1 = 2088$. You are given a Ranom number. You can change no more than one digit in it. Calculate the maximum possible value of the resulting number.
+
+\subsection*{Input}
+ The first line contains a single integer $t$ ($1 \le t \le 10^4$) — the number of test cases. The only line of each test case contains a string $s$ ($1 \le |s| \le 2 \cdot 10^5$) consisting of uppercase Latin letters from A to E — the Ranom number you are given. The sum of the string lengths over all test cases does not exceed $2 \cdot 10^5$.
+
+\subsection*{Output}
+ For each test case, print a single integer — the maximum possible value of the number, if you can change no more than one digit in it.
+
+\section{\href{https://codeforces.com/problemset/problem/1697/E}{E. Coloring}}
+
+\begin{itemize}
+\item \textbf{time limit per test:}  3 seconds
+\item \textbf{memory limit per test:}  512 megabytes
+\end{itemize}
+You are given $n$ points on the plane, the coordinates of the $i$-th point are $(x_i, y_i)$. No two points have the same coordinates. The distance between points $i$ and $j$ is defined as $d(i,j) = |x_i - x_j| + |y_i - y_j|$. For each point, you have to choose a color, represented by an integer from $1$ to $n$. For every ordered triple of different points $(a,b,c)$, the following constraints should be met: if $a$, $b$ and $c$ have the same color, then $d(a,b) = d(a,c) = d(b,c)$; if $a$ and $b$ have the same color, and the color of $c$ is different from the color of $a$, then $d(a,b) < d(a,c)$ and $d(a,b) < d(b,c)$. Calculate the number of different ways to choose the colors that meet these constraints.
+
+\subsection*{Input}
+ The first line contains one integer $n$ ($2 \le n \le 100$) — the number of points. Then $n$ lines follow. The $i$-th of them contains two integers $x_i$ and $y_i$ ($0 \le x_i, y_i \le 10^8$). No two points have the same coordinates (i. e. if $i \ne j$, then either $x_i \ne x_j$ or $y_i \ne y_j$).
+
+\subsection*{Output}
+ Print one integer — the number of ways to choose the colors for the points. Since it can be large, print it modulo $998244353$.
+
+\section{\href{https://codeforces.com/problemset/problem/997/B}{B. Roman Digits}}
+
+\begin{itemize}
+\item \textbf{time limit per test:}  1 second
+\item \textbf{memory limit per test:}  256 megabytes
+\end{itemize}
+Let's introduce a number system which is based on a roman digits. There are digits I , V , X , L which correspond to the numbers $1$, $5$, $10$ and $50$ respectively. The use of other roman digits is not allowed. Numbers in this system are written as a sequence of one or more digits. We define the value of the sequence simply as the sum of digits in it. For example, the number XXXV evaluates to $35$ and the number IXI — to $12$. Pay attention to the difference to the traditional roman system — in our system any sequence of digits is valid, moreover the order of digits doesn't matter, for example IX means $11$, not $9$. One can notice that this system is ambiguous, and some numbers can be written in many different ways. Your goal is to determine how many distinct integers can be represented by exactly $n$ roman digits I , V , X , L .
+
+\subsection*{Input}
+ The only line of the input file contains a single integer $n$ ($1 \le n \le 10^9$) — the number of roman digits to use.
+
+\subsection*{Output}
+ Output a single integer — the number of distinct integers which can be represented using $n$ roman digits exactly .
+
+\end{document}

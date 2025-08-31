@@ -11,6 +11,8 @@
 #include <fstream>
 #include <iostream>
 
+#include "utils/Formater.h"
+
 std::string getProjectPath() {
 #ifdef PROJECT_SOURCE_DIR
   return PROJECT_SOURCE_DIR;
@@ -19,64 +21,7 @@ std::string getProjectPath() {
 #endif
 }
 
-void split_time(std::string &limit) {
-  const std::string pattern = "test";
-  auto it = limit.find(pattern);
-  size_t start = it + pattern.size();
-
-  limit += ' ';
-  limit += ' ';
-  for (size_t i = limit.size() - 1; i >= start; i--) {
-    limit[i] = limit[i - 2];
-  }
-
-  limit[start] = ':';
-  limit[start + 1] = ' ';
-}
-
-std::string fix(std::string str) {
-  size_t f = 0;
-
-  int cnt_dollar = 0;
-  for (size_t i = 0; i < str.size(); i++) {
-    if (str[i] != '$') {
-      str[f] = str[i];
-      f++;
-    } else {
-      cnt_dollar++;
-      if (cnt_dollar == 1) {
-        str[f] = '$';
-        f++;
-      } else if (cnt_dollar == 6) {
-        str[f] = '$';
-        f++;
-        cnt_dollar = 0;
-      }
-    }
-  }
-  str.resize(f);
-  return str;
-}
-
-void write_response(myconnect::Response &response, std::string &link,
-                    std::ofstream &out) {
-  auto title = fix(response.title());
-  auto time_limit = fix(response.time_limit());
-  auto memory_limit = fix(response.memory_limit());
-  auto description = fix(response.description());
-  auto input_spec = fix(response.input_spec());
-  auto output_spec = fix(response.output_spec());
-
-  std::cout << getProjectPath() << std::endl;
-  split_time(time_limit);
-  split_time(memory_limit);
-  out << "\\section{" << "\\href{" << link << "}{" << title << "}}\n" << '\n';
-  out << time_limit << '\n' << '\n';
-  out << memory_limit << '\n' << '\n';
-  out << description << '\n' << '\n';
-  out << input_spec << '\n' << '\n';
-  out << output_spec << '\n' << '\n';
-}
+constexpr size_t kProblems = 5;
 
 int main(int argc, char *argv[]) {
   if (argc == 1) {
@@ -91,8 +36,7 @@ int main(int argc, char *argv[]) {
   }
 
   Cf_Controller controller;
-  // пока одну задачу (из-за капчи)
-  auto randomProblems = controller.generateRandomProblems(tags, 1);
+  auto randomProblems = controller.generateRandomProblems(tags, kProblems);
 
   for (auto &el : randomProblems) {
     std::cout << el << std::endl;
@@ -117,7 +61,7 @@ int main(int argc, char *argv[]) {
 
     if (status.ok()) {
       std::cout << "Response: OK\n";
-      write_response(response, problemLink, out);
+      Formater::formAndWriteResponse(response, problemLink, out);
     } else {
       std::cout << "RPC failed: " << status.error_message() << std::endl;
     }
