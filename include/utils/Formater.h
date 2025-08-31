@@ -15,6 +15,9 @@ private:
   }
 
   static std::string format(std::string str) {
+    if (str.find("$$$") == std::string::npos) {
+      return str;
+    }
     size_t f = 0;
 
     int cnt_dollar = 0;
@@ -39,8 +42,27 @@ private:
   }
 
 public:
+  static void write_beginning(std::ofstream& out) {
+    out << "\\documentclass{article}\n";
+    out << "\\usepackage[english]{babel}\n";
+    out << "\\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}\n";
+    out << "\\usepackage[T2A]{fontenc}\n";
+    out << "\\usepackage[utf8]{inputenc}\n";
+    out << "\\usepackage[russian]{babel}\n";
+    out << "\\usepackage{amsmath}\n";
+    out << "\\usepackage{graphicx}\n";
+    out << "\\usepackage[colorlinks=true, allcolors=blue]{hyperref}\n";
+    out << "\\date{}\n";
+    out << "\\title{Tasks}\n";
+    out << "\\author{Codeforces}\n";
+    out << "\\begin{document}\n";
+    out << "\\maketitle\n";
+  }
+
+
   static void formAndWriteResponse(myconnect::Response &response, std::string &link,
                             std::ofstream &out) {
+
     auto title = format(response.title());
     auto time_limit = format(response.time_limit());
     auto memory_limit = format(response.memory_limit());
@@ -68,5 +90,28 @@ public:
     out << "\\subsection*{Output}\n";
     const std::string output = "Output";
     out << output_spec.substr(output.size()) << '\n' << '\n';
+    
+    int cnt = 1;
+    for (auto& sample: response.samples()) {
+      out << "\\subsection*{Sample " << cnt << "}\n";
+      cnt++;
+      auto sample_input = format(sample.input_data());
+      auto sample_output = format(sample.output_data());
+
+      out << "\\begin{itemize}\n";
+
+      out << "\\item \\textbf{" << "Sample input" << ":} " << '\n';
+      out << sample_input << '\n';
+
+      out << "\\item \\textbf{" << "Sample output" << ":} " << '\n';
+      out << sample_output << '\n';
+
+      out << "\\end{itemize}\n";
+    }
+  }
+
+
+  static void write_ending(std::ofstream& out) {
+    out << "\\end{document}\n";
   }
 };

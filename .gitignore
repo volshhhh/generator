@@ -27,4 +27,4 @@ Makefile
 Thumbs.db
 
 # other
-template.tex
+**/__pycache__/

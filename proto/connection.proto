@@ -9,7 +9,8 @@ message Request {
 
 /// Пример входных/выходных данных
 message Sample {
-    string text = 1;  /// Текст примера
+    string input_data = 1;  /// Входные данные
+    string output_data = 2; /// Выходные данные
 }
 
 /// Ответ с информацией о задаче

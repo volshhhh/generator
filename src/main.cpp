@@ -49,7 +49,9 @@ int main(int argc, char *argv[]) {
   std::unique_ptr<myconnect::Parsing::Stub> stub =
       myconnect::Parsing::NewStub(channel);
 
-  std::ofstream out(getProjectPath() + "/template.tex", std::ios::app);
+  std::ofstream out(getProjectPath() + "/template.tex");
+
+  Formater::write_beginning(out);
   for (std::string &problemLink : randomProblems) {
     myconnect::Request request;
     myconnect::Response response;
@@ -66,5 +68,5 @@ int main(int argc, char *argv[]) {
       std::cout << "RPC failed: " << status.error_message() << std::endl;
     }
   }
-  out << "\\end{document}\n";
+  Formater::write_ending(out);
 }
